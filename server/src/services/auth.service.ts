@@ -2,15 +2,28 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config';
 import { InvalidCredentialsError } from '../errors/auth/InvalidCredentialsError';
+import { InvalidEmailError } from '../errors/auth/InvalidEmailError';
 import { InvalidTokenError } from '../errors/auth/InvalidTokenError';
 import { UserAlreadyRegisteredError } from '../errors/auth/UserAlreadyRegisteredError';
 import { UserNotFoundError } from '../errors/auth/UserNotFoundError';
+import { WeakPasswordError } from '../errors/auth/WeakPasswordError';
 import { prisma } from '../utils/prisma';
+import { validarEmail } from '../utils/task.utils';
+import { validarForcaSenha } from '../utils/auth.utils';
 
 const TOKEN_EXPIRATION = '1h';
 
 export class AuthService {
     static async registerUser(email: string, password: string, name: string) {
+        if (!validarEmail(email)) {
+            throw new InvalidEmailError();
+        }
+
+        const forca = validarForcaSenha(password);
+        if (!forca.valida) {
+            throw new WeakPasswordError(forca.razao);
+        }
+
         const existingUser = await prisma.user.findUnique({ where: { email } });
         if (existingUser) {
             throw new UserAlreadyRegisteredError();

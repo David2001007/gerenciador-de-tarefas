@@ -69,6 +69,30 @@ k6 run tests/k6/<arquivo>.js
 robot tests/robot/
 ```
 
+## API
+
+### Autenticação
+
+| Método | Rota | Autenticada | Descrição |
+|--------|------|-------------|-----------|
+| POST | `/api/auth/register` | Não | Cadastro (valida e-mail e força da senha) |
+| POST | `/api/auth/login` | Não | Login |
+| GET | `/api/auth/me` | Sim | Dados do usuário autenticado |
+| GET | `/api/auth/validate` | Sim | Valida o token atual |
+| POST | `/api/auth/refresh` | Sim | Renova o token |
+
+### Tarefas
+
+| Método | Rota | Autenticada | Descrição |
+|--------|------|-------------|-----------|
+| POST | `/api/tasks` | Sim | Cria uma tarefa |
+| GET | `/api/tasks` | Sim | Lista tarefas (filtros: `completed`, `priority`) |
+| GET | `/api/tasks/stats` | Sim | Estatísticas das tarefas do usuário |
+| GET | `/api/tasks/:id` | Sim | Busca tarefa por ID |
+| PUT | `/api/tasks/:id` | Sim | Atualiza tarefa |
+| DELETE | `/api/tasks/:id` | Sim | Remove tarefa |
+| POST | `/api/test/reset-database` | Não | Reseta o banco de teste (apenas em `NODE_ENV=test`) |
+
 ## Estrutura
 
 ```

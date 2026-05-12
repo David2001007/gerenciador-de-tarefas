@@ -86,6 +86,23 @@ export const updateTask = async (req: Request, res: Response): Promise<void> => 
     }
 };
 
+export const getStats = async (req: Request, res: Response): Promise<void> => {
+    const userId = req.userId;
+    if (!userId) {
+        res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Não autorizado' });
+
+        return;
+    }
+
+    try {
+        const stats = await TaskService.getStats(userId);
+        res.json(stats);
+    } catch (error) {
+        console.error('Erro ao buscar estatísticas:', error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Erro no servidor' });
+    }
+};
+
 export const deleteTask = async (req: Request, res: Response): Promise<void> => {
     const userId = req.userId;
     if (!userId) {
