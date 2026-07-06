@@ -1,4 +1,4 @@
-import { contarCaracteres, sanitizarTexto, validarTextoComentario } from '../../utils/comentario.utils';
+import { TAMANHO_MAXIMO_COMENTARIO, validarTextoComentario } from '../../utils/comentario.utils';
 
 describe('comentario.utils', () => {
     it('aceita comentario com texto preenchido', () => {
@@ -14,10 +14,12 @@ describe('comentario.utils', () => {
         expect(resultado.mensagem).toContain('vazio');
     });
 
-    it('remove espacos das pontas e conta somente o texto real', () => {
-        const texto = '  Comentario com espacos  ';
+    it('rejeita comentario com mais de 500 caracteres', () => {
+        const textoMuitoGrande = 'a'.repeat(TAMANHO_MAXIMO_COMENTARIO + 1);
 
-        expect(sanitizarTexto(texto)).toBe('Comentario com espacos');
-        expect(contarCaracteres(texto)).toBe(22);
+        const resultado = validarTextoComentario(textoMuitoGrande);
+
+        expect(resultado.valido).toBe(false);
+        expect(resultado.mensagem).toContain(String(TAMANHO_MAXIMO_COMENTARIO));
     });
 });

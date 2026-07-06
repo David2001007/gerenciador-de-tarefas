@@ -56,29 +56,25 @@ Como explicar:
 
 "Esse e o teste negativo dos unitarios. Ele prova que um comentario vazio nao passa na validacao."
 
-### Teste 3: remove espacos das pontas e conta somente o texto real
+### Teste 3: rejeita comentario com mais de 500 caracteres
 
 O que faz:
 
-Usa o texto `  Comentario com espacos  `, com espacos antes e depois.
+Cria um texto com 501 caracteres usando a regra TAMANHO_MAXIMO_COMENTARIO + 1.
 
-Depois chama:
-
-- `sanitizarTexto`, para remover os espacos das pontas.
-- `contarCaracteres`, para contar apenas o texto depois do `trim`.
+Depois chama a funcao alidarTextoComentario com esse texto muito grande.
 
 O que espera:
 
-Espera que o texto final seja `Comentario com espacos` e que a contagem seja `22`.
+Espera que alido seja alse e que a mensagem de erro informe o limite de 500 caracteres.
 
 O que cobre:
 
-Cobre a limpeza do texto antes de salvar ou validar. Isso evita que espacos extras no inicio ou no fim sejam considerados como parte real do comentario.
+Cobre a regra de tamanho maximo do comentario. Isso garante que o sistema nao aceite textos maiores do que o limite permitido.
 
 Como explicar:
 
-"Esse teste mostra que o sistema trata o texto antes de usar: remove espacos desnecessarios e conta somente o conteudo real."
-
+ Esse teste verifica o limite maximo do comentario. Como o sistema permite ate 500 caracteres ele envia 501 e espera que a validacao rejeite.
 ## 2. Testes de API/integracao
 
 Arquivo:
