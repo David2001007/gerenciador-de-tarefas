@@ -97,7 +97,7 @@ Eles testam a integracao entre:
 
 ### Preparacao usada nos testes
 
-Antes de testar comentario, o arquivo cria:
+Antes de testar comentario, o arquivo garante que as tabelas de teste existem, porque este projeto pode estar sem migrations aplicadas no banco de teste. Depois disso, ele cria:
 
 1. um usuario pela rota `/api/autenticacao/registrar`;
 2. uma tarefa pela rota `/api/tarefas`;
